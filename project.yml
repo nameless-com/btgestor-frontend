@@ -1,0 +1,41 @@
+name: BTGestor
+options:
+  bundleIdPrefix: com.zenixcode
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+packages:
+  BTShared:
+    # Em dev: pacote local ao lado. Para GitHub: troque por url + branch.
+    path: ../bt-shared
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    SWIFT_STRICT_CONCURRENCY: complete
+targets:
+  BTGestor:
+    type: application
+    platform: iOS
+    sources: [BTGestor]
+    configFiles:
+      Debug: BTGestor/Config/Debug.xcconfig
+      Release: BTGestor/Config/Release.xcconfig
+    dependencies:
+      - package: BTShared
+    info:
+      path: BTGestor/Info.plist
+      properties:
+        CFBundleDisplayName: BTGestor
+        UILaunchScreen: {}
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        API_BASE_URL: $(API_BASE_URL)
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zenixcode.bt200.gestor
+        GENERATE_INFOPLIST_FILE: false
+        TARGETED_DEVICE_FAMILY: "1"
